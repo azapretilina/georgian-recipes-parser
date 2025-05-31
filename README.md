@@ -26,11 +26,11 @@
 
    ```bash 
     git clone git@github.com:azapretilina/georgian-recipes-parser.git 
-    cd georgian-recipes-parser```
+    cd georgian-recipes-parser
 2) Установи зависимости:
-    ```pip install requests beautifulsoup4 pandas openpyxl```
+    ```pip install requests beautifulsoup4 pandas openpyxl
 3) Запусти скрипт:
-    ```python georgian_recipies_parser.py```
+    ```python georgian_recipies_parser.py
 
 Что должно получиться в итоге:
 После запуска в корне папки появится файл georgian_recipes.xlsx
