@@ -1,0 +1,57 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# C extensions
+*.pyd
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environment
+venv/
+ENV/
+env/
+.venv/
+
+# VS Code settings
+.vscode/
+
+# Pytest cache
+.pytest_cache/
+
+# Environment variables
+.env
+.env.*
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# PyCharm 
+.idea/
+
+# Logs
+*.log
+# Poetry
+poetry.lock
+# Pycharm shelf
+.idea/shelf/

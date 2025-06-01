@@ -5,16 +5,18 @@ import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Alignment, Font
-
+#формируем класс для парсинга рецептов с сайта 1000.menu
 class GeorgianRecipeParser:
     def __init__(self, base_url, recipe_limit=8):
         self.base_url = base_url
         self.recipe_limit = recipe_limit
         self.recipes = []
+#получение ссылок на рецепты со стартовой страницы 
     def fetch_recipe_links(self):
         r = requests.get(self.base_url)
         soup = BeautifulSoup(r.text, "html.parser")
         return soup.find_all("a", class_="h5")[:self.recipe_limit]
+#парсинг одного блока с ингридиентами
     def parse_ingredients(self, soup):
         ingredient_blocks = soup.find_all("div", class_="ingredient list-item")
         ingredients = []
@@ -34,6 +36,7 @@ class GeorgianRecipeParser:
                 }
             })
         return ingredients
+#парсинг страницы рецептов
     def parse_recipe(self, link):
         title = link.text.strip()
         href = link.get("href")
@@ -49,12 +52,14 @@ class GeorgianRecipeParser:
             "calories": calories,
             "ingredients": ingredients
         }
+#собираем рецепты по ссылкам
     def collect_recipes(self):
         links = self.fetch_recipe_links()
         for link in links:
             recipe = self.parse_recipe(link)
             self.recipes.append(recipe)
-            time.sleep(1)
+            time.sleep(1) #делаем паузу между запросами
+#сохраняем полученную информацию в Excel-файл
     def save_to_excel(self, filename):
         rows = []
         for recipe in self.recipes:
@@ -69,12 +74,13 @@ class GeorgianRecipeParser:
             rows.append({
                 "Наименование": recipe["title"],
                 "Ссылка": recipe["url"],
-                "Ккал": recipe["calories"],
+                "Ккал на 100 гр.": recipe["calories"],
                 "Ингридиенты": ingredients_str
             })
         df = pd.DataFrame(rows)
         df.to_excel(filename, index=False)
         self.format_excel(filename)
+#форматируем Excel файл(приводим колонки в читаемый вид)
     def format_excel(self, path):
         wb = load_workbook(path)
         ws = wb.active
@@ -89,6 +95,7 @@ class GeorgianRecipeParser:
         for cell in ws[1]:
             cell.font = Font(bold=True)
         wb.save(path)
+#запускаем парсер и сохраняем результат
 def main():
     parser = GeorgianRecipeParser("https://1000.menu/catalog/gruzinskaya-kuxnya")
     parser.collect_recipes()
